@@ -1,16 +1,17 @@
-import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
+import { getEventById, getAllEvents } from '../../helpers/api-utils';
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 import ErrorAlert from '../../components/ui/error-alert';
 
 function EventDetailPage(props) {
-  const { loadedEvent } = props;
+  const { loadedEvent } = props.selectedEvent;
 
   if (!loadedEvent) {
-    return <p>Loading...</p>;
+    return <ErrorAlert>
+    <p>No event found!</p></ErrorAlert>
   }
 
   return (
@@ -29,24 +30,10 @@ function EventDetailPage(props) {
   );
 }
 
-async function getData() {
-  const url =
-    'https://nextjs-d55b4-default-rtdb.europe-west1.firebasedatabase.app/events.json';
-
-  const response = await fetch(url);
-  const data = await response.json();
-
-  return data;
-}
-
 export async function getStaticProps(context) {
-    const { params } = context;
+    const eventId = context.params.eventId;
 
-    const eventTitle = params.eTitle;
-  
-    const data = await getData();
-  
-    const event = data.events.find((event) => event.title === eventTitle);
+    const event = await getEventById(eventId);
   
     if(!event) {
       return { notFound: true }
@@ -54,21 +41,19 @@ export async function getStaticProps(context) {
   
     return {
       props: {
-        loadedEvents: event,
+        selectedEvent: event,
       },
     };
 }
 
 export async function getStaticPaths() {
-  const data = await getData();
+  const events = await getAllEvents();
 
-  const titles = data.events.map((event) => event.title);
-
-  const pathsWithParams = titles.map((title) => ({ params: { eTitle: title } }));
+  const pathsWithParams = events.map((event) => ({ params: { eventId: event.id } }));
 
   return {
     paths: pathsWithParams,
-    fallback: true,
+    fallback: false,
   };
 }
 
