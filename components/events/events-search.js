@@ -12,9 +12,8 @@ function EventSearch(props) {
 
     const selectedYear = yearInputRef.current.value;
     const selectedMonth = monthInputRef.current.value;
-
     props.onSearch(selectedYear, selectedMonth);
-  }
+  };
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>

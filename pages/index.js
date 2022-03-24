@@ -12,7 +12,7 @@ return (
 export async function getStaticProps() {
   const featuredEvents = await getFeaturedEvents();
   
-    return { props: { events: featuredEvents }, revalidate: 120 };
+    return { props: { events: featuredEvents }, revalidate: 1800 };
   }
 
 export default HomePage;
