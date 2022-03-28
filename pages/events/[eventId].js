@@ -7,7 +7,6 @@ import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 import Comments from '../../components/input/comments';
 import { getFeaturedEvents } from '../../dummy-data';
-import { buildCommentsPath, extractComments } from '../api/comments';
 
 function EventDetailPage(props) {
   const loadedEvent = props.selectedEvent;
@@ -46,9 +45,6 @@ export async function getStaticProps(context) {
 
   const event = await getEventById(eventId);
 
-  const filePath = buildCommentsPath();
-  const data = extractComments(filePath);
-
   if (!event) {
     return { notFound: true };
   }
@@ -56,7 +52,6 @@ export async function getStaticProps(context) {
   return {
     props: {
       selectedEvent: event,
-      comments: data,
     },
     revalidate: 30,
   };
