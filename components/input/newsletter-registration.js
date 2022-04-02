@@ -29,25 +29,26 @@ function NewsletterRegistration() {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        if(response.ok) {
-          return response.json();
-        }
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
 
-        return response.json().then(data => {
-          throw new Error(data.message || 'Someting went wrong!');
-        });
-      })
+      return response.json().then((data) => {
+        throw new Error(data.message || 'Someting went wrong!');
+      });
+    })
       .then((data) => {
         notificationCtx.showNotification({
           title: 'Success!',
           message: 'Successfully registered for newsletter.',
           status: 'success',
         });
-      }).catch(error => {
+      })
+      .catch((error) => {
         notificationCtx.showNotification({
           title: 'Error!',
-          message: error.message || 'Something went wrong',
+          message: error.message || 'Something went wrong.',
           status: 'error',
         });
       });

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react/cjs/react.production.min';
+import { Fragment, useContext } from 'react';
 
 import Mainheader from './main-header';
 import Notification from '../ui/notification';
