@@ -16,7 +16,7 @@ export function NotificationContextProvider(props) {
         activeNotification.status === 'error')
     ) {
       const timer = setTimeout(() => {
-        hideNotificationHandler;
+        hideNotificationHandler();
       }, 3000);
       return () => {
         clearTimeout(timer);
